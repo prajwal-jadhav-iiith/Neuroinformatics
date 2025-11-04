@@ -5,34 +5,29 @@ clc
 
 m = 5;
 fs = 1000;
-t = 0:1/fs:100;
+t = -1.5:1/fs:1.5;
 
-wavelet_family = 2:5:30;
+% frequencies which we are going to use
+wavelet_family = linspace(2, 30, 5);
 
-load ../sampleEEGdata.mat
+load sampleEEGdata.mat
 
 data = EEG.data(:,:, 47);
 
 % Preallocate array for wavelets
 wavelets = zeros(length(wavelet_family), length(t));
 
+labels = []; 
+
 for wi = 1:length(wavelet_family)
-    % wf = wavelet_family(wi);
-    % sigma = m/(2*pi*wf);
-    % tw = -6*sigma : 1/fs : 6*sigma;
-    % w = morlet_wavelet(wf, m, tw);
-    % 
-    % figure(wi)
-    % plot(t, real(w))
-
     w = morlet_wavelet(wavelet_family(wi), m, t-mean(t));
-
-    figure(wi);
-
+    wavelets(wi, :) = w;
+    figure(1);
     plot(t, real(w));
-
-    
+    hold on;
 end
+
+hold off;
 
 
 function w = morlet_wavelet(f0, m, t)
