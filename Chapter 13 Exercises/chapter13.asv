@@ -3,8 +3,6 @@ close all
 clc
 
 
-% Exercise 1
-
 m = 5;
 fs = 1000;
 t = -1.5:1/fs:1.5;
@@ -31,7 +29,6 @@ end
 
 hold off;
 
-% Exercise 2
 [num_of_channels, num_of_time_points_data] = size(data);
 [x, num_of_time_points_wavelet] = size(wavelets);
 
@@ -54,7 +51,6 @@ for i = 1:5
     result(i, :, :) = trimmed_ifft;
 end
 
-% Exercise 3
 analysis_matrix = zeros(640, 5, 64, 2);
 
 power = abs(result).^2;
@@ -72,16 +68,7 @@ time_index = dsearchn(EEG.times', 180);
 figure(1);
 for i = 1:5
     subplot(2, 5, i);
-    data_to_plot = squeeze(analysis_matrix(time_index, i, :, 1));
-    topoplot(data_to_plot, EEG.chanlocs);
-    title("Power for " + num2str(wavelet_family(i)) + " Hz")
-end
-
-for i = 1:5
-    subplot(2, 5, i+5);
-    data_to_plot = squeeze(analysis_matrix(time_index, i, :, 2));
-    topoplot(data_to_plot, EEG.chanlocs);
-    title("Phase for " + num2str(wavelet_family(i)) + " Hz")
+    data_to_plot = analysis_matrix(time_index, i, :, 1)
 end
 
 
